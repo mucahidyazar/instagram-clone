@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const Button = ({ name, color, style }) => {
+const Button = ({ name, color, style, onPress, width, height }) => {
 
   let buttonStyle;
   if (color) {
@@ -23,7 +23,7 @@ const Button = ({ name, color, style }) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={() => { }}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={{width, height}}>
       <Text style={{ ...styles.button, ...buttonStyle, ...style }}>{name}</Text>
     </TouchableOpacity>
   )

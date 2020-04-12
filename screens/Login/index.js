@@ -36,9 +36,9 @@ const Introduction = props => {
               onChangeText={text => setPassword(text)} />
             <Icon name={securePassword ? "eye" : "eye-slash"} style={styles.inputIcon} onPress={() => setSecurePassword(!securePassword)} />
           </View>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => { }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => props.navigation.navigate('Home')}>
             <Text style={{ ...styles.button, ...styles.buttonLogin }}>
-              Login
+              Loginn
             </Text>
           </TouchableOpacity>
           <Text style={styles.lightText}>Forgot your login details? <Text style={styles.boldText} onPress={() => props.navigation.navigate('LoginHelp')}>Get help signing in.</Text></Text>

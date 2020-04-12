@@ -5,28 +5,20 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const TextComponent = ({ name, type, style, size, color, children }) => {
-
-  let textStyle;
-  if (type === 'light') {
-    textStyle = {
-      opacity: 0.5,
-    };
-  } else if (type === 'dark') {
-    textStyle = {
-      fontWeight: 'bold',
-    };
-  }
+const TextComponent = ({ name, dark, light, style, size, color, children, center, onPress }) => {
 
   return (
 
     <Text
+      onPress={onPress}
       style={{
         ...styles.text,
-        ...textStyle,
-        ...style,
         fontSize: size,
         color: color,
+        textAlign: center ? 'center' : 'auto',
+        opacity: light ? 0.5 : 1,
+        fontWeight: dark ? 'bold' : 'normal',
+        ...style,
       }}>
       {name} {children}
     </Text>

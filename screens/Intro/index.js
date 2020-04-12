@@ -38,6 +38,7 @@ const Intro = props => {
 Intro.navigationOptions = () => {
 
   return {
+    
   }
 }
 

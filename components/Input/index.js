@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const Input = ({ placeholder, color, style, icon, iconStyle }) => {
+const Input = (props) => {
+
+  const { placeholder, color, style, icon, iconStyle } = props;
 
   let inputFormStyle;
   let inputTextStyle;
@@ -27,7 +29,7 @@ const Input = ({ placeholder, color, style, icon, iconStyle }) => {
 
   return (
     <View style={{ ...styles.formGroup, ...inputFormStyle }}>
-      <TextInput placeholder={placeholder} style={{ ...styles.textInput, ...style, ...inputTextStyle }} />
+      <TextInput {...props} placeholder={placeholder} style={{ ...styles.textInput, ...style, ...inputTextStyle }} />
       {icon ? <Icon name={icon} style={{ ...iconStyle, ...inputIconStyle }} /> : null}
     </View>
   )

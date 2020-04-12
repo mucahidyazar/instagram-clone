@@ -56,6 +56,8 @@ target 'instagramClone' do
 
   pod 'RNTextGradientView', :path => '../node_modules/react-native-text-gradient'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'instagramCloneTests' do
     inherit! :complete
     # Pods for testing
