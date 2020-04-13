@@ -1,23 +1,25 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, StyleSheet, Platform, Dimensions, TouchableOpacity, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Button from '../../../components/Button';
-import Input from '../../../components/Input';
-import Text from '../../../components/Text';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import Text from '../../components/Text';
 import { useSelector } from 'react-redux';
 
 const Profile = props => {
 
   const activeUserId = 1;
   const users = useSelector(state => state.auth.users);
-  const user = users[activeUserId - 1];
+  const user = props.navigation.getParam('user') ? props.navigation.getParam('user') : users[activeUserId - 1];
 
   useEffect(() => {
     props.navigation.setParams({
-      user
+      user,
     });
   }, []);
+
+  const [ activeProfileBar, setActiveProfileBar ] = useState('yourposts');
 
   return (
     <View style={styles.container}>
@@ -46,7 +48,7 @@ const Profile = props => {
         <View style={styles.info}>
           <View style={styles.infoProfile}>
             <View style={styles.infoProfileIconContainer}>
-              <Image style={styles.infoProfilePhoto} source={user.profilePhoto ? user.profilePhoto : require('../../../assets/images/server/defaultProfile.png')} />
+              <Image style={styles.infoProfilePhoto} source={user && user.profilePhoto ? user.profilePhoto : require('../../assets/images/server/defaultProfile.png')} />
             </View>
             <Text dark style={styles.infoProfileText}>{user.username}</Text>
           </View>
@@ -72,36 +74,60 @@ const Profile = props => {
 
         <View style={styles.posts}>
             <Icon
-              style={{...styles.menuItem, ...styles.menuItemActive}}
+              style={ activeProfileBar === 'yourposts' ? {...styles.menuItem, ...styles.menuItemActive} : styles.menuItem }
               name={Platform.OS === 'android' ? 'md-grid' : 'ios-grid'}
-              size={30} />
+              size={30}
+              onPress={() => setActiveProfileBar('yourposts')} />
             <Icon
-              style={{...styles.menuItem, ...styles.menuItemActive}}
+              style={ activeProfileBar === 'yourtagposts' ? {...styles.menuItem, ...styles.menuItemActive} : styles.menuItem }
               name={Platform.OS === 'android' ? 'md-bookmarks' : 'ios-bookmarks'}
-              size={30} />
+              size={30}
+              onPress={() => setActiveProfileBar('yourtagposts')} />
         </View>
         </View>
         {
-          user.posts.length > 0
+          activeProfileBar === 'yourposts'
           ?
-          <FlatList
-            data={user.posts}
-            keyExtractor={item => item}
-            numColumns={3}
-            columnWrapperStyle={{justifyContent:'space-between'}}
-            renderItem={(itemData) => (
-              <View style={styles.yourPostsContainer}>
-                <View>
-                  <Image style={styles.yourPostsPost} source={itemData.item} />
-                </View>
-              </View>
-            )} />
+          (
+            user.posts.length > 0
+            ?
+            <FlatList
+              data={user.posts}
+              keyExtractor={item => item.id}
+              numColumns={3}
+              columnWrapperStyle={{justifyContent:'space-between'}}
+              renderItem={(itemData) => (
+                <TouchableOpacity activeOpacity={0.6} onPress={() => props.navigation.navigate('Post', {post: itemData.item, user})}>
+                  <Image style={styles.yourPostsPost} source={itemData.item.postImageUrl} />
+                </TouchableOpacity>
+              )} />
+            :
+            <View style={styles.yourEmptyPostsContainer}>
+              <Text center size={30}>Profile</Text>
+              <Text center light>When you share photos and videos, they'll appear on your profile.</Text>
+              <Text center color="royalblue">Share your first photo or video</Text>
+            </View>
+          )
           :
-          <View style={styles.yourEmptyPostsContainer}>
-            <Text center size={30}>Profile</Text>
-            <Text center light>When you share photos and videos, they'll appear on your profile.</Text>
-            <Text center color="royalblue">Share your first photo or video</Text>
-          </View>
+          (
+            user.tagPosts.length > 0
+            ?
+            <FlatList
+              data={user.tagPosts}
+              keyExtractor={item => item}
+              numColumns={3}
+              columnWrapperStyle={{justifyContent:'space-between'}}
+              renderItem={(itemData) => (
+                <TouchableOpacity activeOpacity={0.6}>
+                  <Image style={styles.yourPostsPost} source={itemData.item} />
+                </TouchableOpacity>
+              )} />
+            :
+            <View style={styles.yourEmptyPostsContainer}>
+              <Text center size={30}>Photos and Videos of You</Text>
+              <Text center light>When people tag you in photos and videos, they'll appear here.</Text>
+            </View>
+          )
         }
       </View>
     </View>
@@ -114,32 +140,8 @@ Profile.navigationOptions = navData => {
 
   return {
     drawerLabel: () => (
-      <View style={styles.drawer}>
-        <View style={styles.drawerTop}>
-          <Text dark style={styles.drawerUsername}>mucahidyazar</Text>
-          <View style={styles.drawerIconContainer}>
-            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-archive" : "ios-archive"} />
-            <Text>Archive</Text>
-          </View>
-          <View style={styles.drawerIconContainer}>
-            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-save" : "ios-save"} />
-            <Text>Saved</Text>
-          </View>
-          <View style={styles.drawerIconContainer}>
-            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-people" : "ios-people"} />
-            <Text>Close Friends</Text>
-          </View>
-          <View style={styles.drawerIconContainer}>
-            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-paw" : "ios-paw"} />
-            <Text>Discover People</Text>
-          </View>
-        </View>
-        <View style={styles.drawerBottom}>
-          <View style={styles.drawerIconContainer}>
-            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-settings" : "ios-settings"} />
-            <Text>Settings</Text>
-          </View>
-        </View>
+      <View style={styles.drawer} onPress={() => navData.navigation.navigate('Profile')}>
+        <Text dark style={styles.drawerUsername}>mucahidyazar</Text>
       </View>
     ),
   }
@@ -248,22 +250,11 @@ const styles = StyleSheet.create({
   },
 
   drawer: {
-    padding: '5%',
-    height: Dimensions.get('window').height - Dimensions.get('window').width / 100 * 8,
-    justifyContent: 'space-between',
+    paddingHorizontal: '5%',
   },
   drawerUsername: {
     paddingVertical: '5%',
   },
-  drawerIconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: '5%',
-  },
-  drawerIcon: {
-    fontSize: 30,
-    marginRight: '5%',
-  }
 });
 
 export default Profile;

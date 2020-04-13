@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity, TextInput } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../../../components/Button';
 import Text from '../../../components/Text';
@@ -13,30 +13,35 @@ const Search = props => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Icon style={{width: '8%'}} name="search" size={25} />
-        <TextInput style={{width: '84%', fontSize: 20}} placeholder="Search" />
-        <Icon style={{width: '8%'}} name="user-plus" size={25} />
+        <Icon style={{width: '8%'}} name="search" size={20} />
+        <Text 
+          style={{width: '84%', fontSize: 20}}
+          light
+          onPress={() => props.navigation.navigate('AdvanceSearch')}
+          name="Search" />
+        <Icon style={{width: '8%'}} name="user-plus" size={20} />
       </View>
       <View style={styles.posts}>
         {
           users.map((user, index) => (
-            user.album.map((eachImage, eachIndex) => (
-              <TouchableOpacity
-                key={eachIndex}
-                activeOpacity={0.7}
-                style={{
-                  width: Dimensions.get('window').width / 3 - 2,
-                  height: Dimensions.get('window').width / 3 - 2,
-                  margin: 1,
-                }}>
-                <Image
-                  source={eachImage}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }} />
-              </TouchableOpacity>
-            ))
+            <FlatList
+              data={user.posts}
+              numColumns={3}
+              keyExtractor={item => item.id}
+              columnWrapperStyle={{justifyContent: 'space-between'}}
+              renderItem={(itemData) => (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={{marginBottom: 1}}
+                  onPress={() => props.navigation.navigate('Post', { post: itemData.item, user })}>
+                  <Image
+                    source={itemData.item.postImageUrl}
+                    style={{
+                      width: Dimensions.get('window').width / 3 - 1,
+                      height: Dimensions.get('window').width / 3 - 1,
+                    }} />
+                </TouchableOpacity>
+              )} />
           ))
         }
       </View>
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: '3%',
+    padding: '3%',
   },
   posts: {
     flexDirection: 'row',

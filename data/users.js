@@ -22,13 +22,42 @@ export default [
     followers: [],
     following: [],
     posts: [
-      require('../assets/images/profile/1/1.jpg'),
-      require('../assets/images/profile/1/2.jpg'),
-      require('../assets/images/profile/1/3.jpg'),
-      require('../assets/images/profile/1/4.jpg'),
-      require('../assets/images/profile/1/5.jpg'),
-      require('../assets/images/profile/1/6.jpg'),
+      {
+        id: 1,
+        postImageUrl: require('../assets/images/profile/1/1.jpg'),
+        postDate: new Date(2018, 11, 24, 10, 33, 30),
+        likes: [
+          {
+            userId: 1,
+            date: new Date(2018, 11, 25, 10, 33, 30),
+          }
+        ]
+      },
+      {
+        id: 2,
+        postImageUrl: require('../assets/images/profile/1/2.jpg'),
+        postDate: new Date(2018, 12, 24, 15, 33, 30),
+        likes: [
+          {
+            userId: 2,
+            date: new Date(2018, 12, 24, 18, 53, 30),
+          }
+        ]
+      },
+      {
+        id: 3,
+        postImageUrl: require('../assets/images/profile/1/3.jpg'),
+        postDate: new Date(2019, 1, 24, 1, 30, 30),
+        likes: [
+          {
+            userId: 2,
+            date: new Date(2020, 1, 1, 5, 58, 30),
+          }
+        ]
+      },
     ],
+    tagPosts: [],
+    savedPosts: [],
   },
   {
     id: 2,
@@ -52,9 +81,41 @@ export default [
     followers: [],
     following: [],
     posts: [
-      require('../assets/images/profile/1/1.jpg'),
-      require('../assets/images/profile/1/2.jpg'),
-      require('../assets/images/profile/1/3.jpg'),
+      {
+        id: 1,
+        postImageUrl: require('../assets/images/profile/1/4.jpg'),
+        postDate: new Date(2018, 11, 24, 10, 33, 30),
+        likes: [
+          {
+            userId: 1,
+            date: new Date(2018, 11, 25, 10, 33, 30),
+          }
+        ]
+      },
+      {
+        id: 2,
+        postImageUrl: require('../assets/images/profile/1/5.jpg'),
+        postDate: new Date(2018, 12, 24, 15, 33, 30),
+        likes: [
+          {
+            userId: 2,
+            date: new Date(2018, 12, 24, 18, 53, 30),
+          }
+        ]
+      },
+      {
+        id: 3,
+        postImageUrl: require('../assets/images/profile/1/6.jpg'),
+        postDate: new Date(2019, 1, 24, 1, 30, 30),
+        likes: [
+          {
+            userId: 2,
+            date: new Date(2020, 1, 1, 5, 58, 30),
+          }
+        ]
+      },
     ],
+    tagPosts: [],
+    savedPosts: [],
   },
 ];

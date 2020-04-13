@@ -20,7 +20,13 @@ const Home = props => {
       <ScrollView horizontal={true} style={styles.cards}>
         {
           users.map((user, index) => (
-            <View style={styles.card} key={index}>
+            <TouchableOpacity 
+              activeOpacity={0.7}
+              style={styles.card}
+              key={index}
+              onPress={() => {
+                props.navigation.navigate('Profile', { user });
+              }}>
               <Image style={styles.profilePhoto} source={user.profilePhoto} />
               <View style={styles.nameContainer}>
                 <Text name={user.username} />
@@ -42,7 +48,7 @@ const Home = props => {
                 <Button color name="Follow" style={{width: 100, height: 40}} />
               </View>
               <Icon name="close" style={styles.icon} />
-            </View>
+            </TouchableOpacity>
           ))
         }
       </ScrollView>

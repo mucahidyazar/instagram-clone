@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import {View, Text, StyleSheet, Platform, Dimensions} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -24,8 +24,20 @@ import ActivityPageScreen from '../screens/Home/Activity';
 import MessagesPageScreen from '../screens/Home/Messages';
 import MessageDetailPageScreen from '../screens/Home/Messages/MessageDetail';
 import MessageRequestsPageScreen from '../screens/Home/Messages/MessageRequests';
-import ProfilePageScreen from '../screens/Home/Profile';
 import SearchPageScreen from '../screens/Home/Search';
+import AdvanceSearchPageScreen from '../screens/Home/Search/AdvanceSearch';
+
+//PROFILE NAVIGATION
+import ProfilePageScreen from '../screens/Profile';
+import ArchivePageScreen from '../screens/Profile/Archive';
+import SavedPageScreen from '../screens/Profile/Saved';
+import CloseFriendsPageScreen from '../screens/Profile/CloseFriends';
+import DiscoverPageScreen from '../screens/Profile/Discover';
+import PostPageScreen from '../screens/Profile/Post';
+import LikesPageScreen from '../screens/Profile/Likes';
+
+//SETTINGS NAVIGATIONS
+import SettingsPageScreen from '../screens/Settings';
 
 const loginStackNavigator = createStackNavigator({
   Intro: {
@@ -52,6 +64,7 @@ const homeStackNavigator = createStackNavigator({
   Messages: MessagesPageScreen,
   MessageDetail: MessageDetailPageScreen,
   MessageRequests: MessageRequestsPageScreen,
+  AdvanceSearch: AdvanceSearchPageScreen,
 }, {
   defaultNavigationOptions: {
     headerTransparent: true,
@@ -65,16 +78,17 @@ const homeTabNavigator = createBottomTabNavigator({
     navigationOptions: ({navigation}) => {
       let { routeName } = navigation.state.routes[navigation.state.index];
 
-      if (routeName === 'loginStackNavigator' || routeName === 'MessageDetail' ||  routeName === 'MessageRequestDetail' || routeName === 'Messages') {
+      if (
+        routeName === 'loginStackNavigator' || routeName === 'MessageDetail' ||  routeName === 'MessageRequestDetail' || routeName === 'Messages') {
         return {
           tabBarLabel: () => null,
-          tabBarIcon: () => <Icon name="home" size={30} />,
+          tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-home' : 'ios-home'} size={30} />,
           tabBarVisible: false,
         };
       }
       return {
         tabBarLabel: () => null,
-        tabBarIcon: () => <Icon name="home" size={30} />,
+        tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-home' : 'ios-home'} size={30} />,
       };
     },
   },
@@ -82,28 +96,28 @@ const homeTabNavigator = createBottomTabNavigator({
     screen: SearchPageScreen,
     navigationOptions:{
       tabBarLabel: () => null,
-      tabBarIcon: () => <Icon name="search" size={30} />,
+      tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-search' : 'ios-search'} size={30} />,
     },
   },
   Camera: {
     screen: SearchPageScreen,
     navigationOptions:{
       tabBarLabel: () => null,
-      tabBarIcon: () => <Icon name="plus-square" size={30} />,
+      tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-add-circle-outline' : 'ios-add-circle-outline'} size={30} />,
     },
   },
   Activity: {
     screen: ActivityPageScreen,
     navigationOptions:{
       tabBarLabel: () => null,
-      tabBarIcon: () => <Icon name="heart" size={30} />,
+      tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-heart' : 'ios-heart'} size={30} />,
     },
   },
   Profile: {
     screen: ProfilePageScreen,
     navigationOptions:{
       tabBarLabel: () => null,
-      tabBarIcon: () => <Icon name="user" size={30} />,
+      tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-person' : 'ios-person'} size={30} />,
     },
   },
 });
@@ -115,7 +129,89 @@ const homeDrawerNavigator = createDrawerNavigator({
       drawerLabel: () => null,
     }
   },
-  Profile: ProfilePageScreen,
+  Profile: {
+    screen: ProfilePageScreen,
+    navigationOptions: {
+      drawerLabel: () => null,
+    }
+  },
+  Likes: {
+    screen: LikesPageScreen,
+    navigationOptions: {
+      drawerLabel: () => null,
+    }
+  },
+  Post: PostPageScreen,
+  Archive: {
+    screen: ArchivePageScreen,
+    navigationOptions: (navData) => {
+
+      return {
+        drawerLabel: () => (
+          <View style={styles.drawerIconContainer} onPress={() => navData.navigation.navigate('Archive')}>
+            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-archive" : "ios-archive"} />
+            <Text>Archive</Text>
+          </View>
+        )
+      };
+    },
+  },
+  Saved: {
+    screen: SavedPageScreen,
+    navigationOptions: (navData) => {
+
+      return {
+        drawerLabel: () => (
+          <View style={styles.drawerIconContainer} onPress={() => navData.navigation.navigate('Saved')}>
+            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-save" : "ios-save"} />
+            <Text>Saved</Text>
+          </View>
+        )
+      };
+    },
+  },
+  CloseFriends: {
+    screen: CloseFriendsPageScreen,
+    navigationOptions: (navData) => {
+
+      return {
+        drawerLabel: () => (
+          <View style={styles.drawerIconContainer} onPress={() => navData.navigation.navigate('CloseFriends')}>
+            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-people" : "ios-people"} />
+            <Text>Close Friends</Text>
+          </View>
+        )
+      };
+    },
+  },
+  Discover: {
+    screen: DiscoverPageScreen,
+    navigationOptions: (navData) => {
+
+      return {
+        drawerLabel: () => (
+          <View style={styles.drawerIconContainer} onPress={() => navData.navigation.navigate('Discover')}>
+            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-paw" : "ios-paw"} />
+            <Text>Discover People</Text>
+          </View>
+        )
+      };
+    },
+  },
+  Settings: {
+    screen: SettingsPageScreen,
+    navigationOptions: (navData) => {
+
+      return {
+        drawerLabel: () => (
+          <View style={styles.drawerIconContainer} onPress={() => navData.navigation.navigate('Settings')}>
+            <Icon style={styles.drawerIcon} name={Platform.OS === 'android' ? "md-settings" : "ios-settings"} />
+            <Text>Settings</Text>
+          </View>
+        ),
+      };
+    },
+  },
 }, {
   drawerPosition: 'right',
   drawerType: 'slide',
@@ -123,6 +219,22 @@ const homeDrawerNavigator = createDrawerNavigator({
     swipeEnabled: true,
   },
   overlayColor: 'transparent',
+  itemsContainerStyle: {
+    position: 'relative',
+  }
+});
+
+const styles = StyleSheet.create({
+  drawerIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: '5%',
+    paddingVertical: '3%',
+  },
+  drawerIcon: {
+    fontSize: 30,
+    marginRight: Dimensions.get('window').width / 100 * 5,
+  },
 });
 
 export default createAppContainer(homeDrawerNavigator);
