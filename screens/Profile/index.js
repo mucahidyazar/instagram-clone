@@ -53,18 +53,24 @@ const Profile = props => {
             <Text dark style={styles.infoProfileText}>{user.username}</Text>
           </View>
           <View style={styles.infoCounts}>
-            <View style={styles.infoPostsContainer}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.infoPostsContainer}>
               <Text center dark>{user.posts.length}</Text>
               <Text center>Posts</Text>
-            </View>
-            <View style={styles.infoFollowersContainer}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.infoFollowersContainer}
+              onPress={() => props.navigation.navigate('Following', {activeTab: 'followers', user})}>
               <Text center dark>{user.followers.length}</Text>
               <Text center>Followers</Text>
-            </View>
-            <View style={styles.infoFollowingContainer}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.infoFollowingContainer}
+              onPress={() => props.navigation.navigate('Following', {activeTab: 'following', user})}>
               <Text center dark>{user.following.length}</Text>
               <Text center>Following</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
 

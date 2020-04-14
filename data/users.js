@@ -19,8 +19,18 @@ export default [
       require('../assets/images/profile/1/2.jpg'),
       require('../assets/images/profile/1/3.jpg'),
     ],
-    followers: [],
-    following: [],
+    followers: [
+      {
+        id: 2, //the user id who follow you
+        followDate: new Date(2018, 11, 24, 10, 33, 30),
+      },
+    ],
+    following: [
+      {
+        id: 1, //the user id who you follow
+        followDate: new Date(2018, 11, 24, 10, 33, 30),
+      },
+    ],
     posts: [
       {
         id: 1,
@@ -78,8 +88,18 @@ export default [
       require('../assets/images/profile/1/5.jpg'),
       require('../assets/images/profile/1/6.jpg'),
     ],
-    followers: [],
-    following: [],
+    followers: [
+      {
+        id: 1, //the user id who follow you
+        followDate: new Date(2018, 11, 24, 10, 33, 30),
+      },
+    ],
+    following: [
+      {
+        id: 2, //the user id who you follow
+        followDate: new Date(2018, 11, 24, 10, 33, 30),
+      },
+    ],
     posts: [
       {
         id: 1,

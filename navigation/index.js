@@ -39,6 +39,9 @@ import LikesPageScreen from '../screens/Profile/Likes';
 //SETTINGS NAVIGATIONS
 import SettingsPageScreen from '../screens/Settings';
 
+//PROFILE
+import FollowingPageScreen from '../screens/Profile/Following';
+
 const loginStackNavigator = createStackNavigator({
   Intro: {
     screen: IntroScreen,
@@ -65,6 +68,16 @@ const homeStackNavigator = createStackNavigator({
   MessageDetail: MessageDetailPageScreen,
   MessageRequests: MessageRequestsPageScreen,
   AdvanceSearch: AdvanceSearchPageScreen,
+}, {
+  defaultNavigationOptions: {
+    headerTransparent: true,
+    headerTitle: "",
+  },
+});
+
+const profileStackNavigator = createStackNavigator({
+  Profile: ProfilePageScreen,
+  Following: FollowingPageScreen,
 }, {
   defaultNavigationOptions: {
     headerTransparent: true,
@@ -114,7 +127,7 @@ const homeTabNavigator = createBottomTabNavigator({
     },
   },
   Profile: {
-    screen: ProfilePageScreen,
+    screen: profileStackNavigator,
     navigationOptions:{
       tabBarLabel: () => null,
       tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-person' : 'ios-person'} size={30} />,
@@ -130,7 +143,7 @@ const homeDrawerNavigator = createDrawerNavigator({
     }
   },
   Profile: {
-    screen: ProfilePageScreen,
+    screen: profileStackNavigator,
     navigationOptions: {
       drawerLabel: () => null,
     }
