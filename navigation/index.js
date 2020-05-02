@@ -17,6 +17,7 @@ import CreateScreen from '../screens/Create';
 import NameAndPasswordScreen from '../screens/Create/NameAndPassword';
 import AddYourBirthdayScreen from '../screens/Create/AddYourBirthday';
 import WelcomeScreen from '../screens/Create/Welcome';
+import CameraScreen from '../screens/Camera';
 
 //HOMEPAGE SCREENS
 import HomePageScreen from '../screens/Home';
@@ -68,6 +69,7 @@ const homeStackNavigator = createStackNavigator({
   MessageDetail: MessageDetailPageScreen,
   MessageRequests: MessageRequestsPageScreen,
   AdvanceSearch: AdvanceSearchPageScreen,
+  Camera: CameraScreen,
 }, {
   defaultNavigationOptions: {
     headerTransparent: true,
@@ -92,7 +94,7 @@ const homeTabNavigator = createBottomTabNavigator({
       let { routeName } = navigation.state.routes[navigation.state.index];
 
       if (
-        routeName === 'loginStackNavigator' || routeName === 'MessageDetail' ||  routeName === 'MessageRequestDetail' || routeName === 'Messages') {
+        routeName === 'loginStackNavigator' || routeName === 'MessageDetail' ||  routeName === 'MessageRequestDetail' || routeName === 'Messages' || routeName === 'Camera') {
         return {
           tabBarLabel: () => null,
           tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-home' : 'ios-home'} size={30} />,
@@ -113,7 +115,7 @@ const homeTabNavigator = createBottomTabNavigator({
     },
   },
   Camera: {
-    screen: SearchPageScreen,
+    screen: CameraScreen,
     navigationOptions:{
       tabBarLabel: () => null,
       tabBarIcon: () => <Icon name={Platform.OS === 'android' ? 'md-add-circle-outline' : 'ios-add-circle-outline'} size={30} />,

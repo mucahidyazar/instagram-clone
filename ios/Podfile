@@ -58,6 +58,10 @@ target 'instagramClone' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'instagramCloneTests' do
     inherit! :complete
     # Pods for testing
